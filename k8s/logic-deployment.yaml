@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: C:\kompose\kompose.exe convert -o ./k8s/
+    kompose.version: 1.31.2 (a92241f79)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: logic
+  name: logic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: logic
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: C:\kompose\kompose.exe convert -o ./k8s/
+        kompose.version: 1.31.2 (a92241f79)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/logic-default: "true"
+        io.kompose.service: logic
+    spec:
+      containers:
+        - env:
+            - name: MP_MESSAGING_CONNECTOR_SMALLRYE_AMQP_HOST
+              value: rabbitmq
+            - name: MP_MESSAGING_CONNECTOR_SMALLRYE_AMQP_PORT
+              value: "5672"
+            - name: MP_MESSAGING_INCOMING_EMAILS_IN_ADDRESS
+              value: emails-in
+            - name: MP_MESSAGING_INCOMING_EMAILS_IN_CONNECTOR
+              value: smallrye-amqp
+            - name: QUARKUS_DATASOURCE_JDBC_URL
+              value: jdbc:postgresql://postgres:5432/logicdb
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              value: admin
+            - name: QUARKUS_DATASOURCE_USERNAME
+              value: postgres
+          image:  pablo517/logic:1.0
+          name: logic
+          ports:
+            - containerPort: 8081
+              hostPort: 8081
+              protocol: TCP
+          resources: {}
+      restartPolicy: Always
+status: {}

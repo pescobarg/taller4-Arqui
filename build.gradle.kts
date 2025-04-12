@@ -14,13 +14,9 @@ val quarkusPlatformArtifactId: String by project
 val quarkusPlatformVersion: String by project
 
 dependencies {
-// Coroutines + Mutiny
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactive:1.7.1")
-    implementation("io.smallrye.reactive:mutiny-kotlin:2.3.0")
-
+    implementation("io.quarkus:quarkus-rest-jackson")
     implementation ("jakarta.persistence:jakarta.persistence-api:3.1.0")
-    implementation("io.quarkus:quarkus-hibernate-reactive-panache")
+    implementation("io.quarkus:quarkus-hibernate-orm-panache-kotlin")
     implementation("io.quarkus:quarkus-jdbc-postgresql")
     implementation("io.quarkus:quarkus-messaging-amqp")
     implementation("io.quarkus:quarkus-mailer")
